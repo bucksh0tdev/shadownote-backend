@@ -1,109 +1,82 @@
-# ShadowNote Backend
+# shadownote-backend
 
-Backend service for ShadowNote. Provides HTTP APIs, WebSocket realtime feed, and Telegram bot integrations.
+> ShadowNote için Express + WebSocket tabanlı backend. Anonim gönderiler, akış ve Telegram bot bildirimleri. ⚡️
 
-**Highlights**
+[![stars](https://img.shields.io/github/stars/bucksh0tdev/shadownote-backend?style=social)](https://github.com/bucksh0tdev/shadownote-backend)
+[![issues](https://img.shields.io/github/issues/bucksh0tdev/shadownote-backend)](https://github.com/bucksh0tdev/shadownote-backend/issues)
+[![last-commit](https://img.shields.io/github/last-commit/bucksh0tdev/shadownote-backend)](https://github.com/bucksh0tdev/shadownote-backend/commits/main)
+[![node](https://img.shields.io/badge/node-18-339933)](https://nodejs.org)
+[![mongodb](https://img.shields.io/badge/mongodb-8-47A248)](https://www.mongodb.com)
+
+## ✨ Öne Çıkanlar
 - Express API + WebSocket gateway
-- MongoDB persistence
-- Rate limiting for anonymous submissions
-- Telegram bot + admin notify flows
-- Static web assets served from `/game`
+- MongoDB kalıcılık
+- Anonim gönderiler için rate limit
+- Telegram bot + admin bildirim akışları
+- `/game` altında statik web varlıkları
 
-**Tech Stack**
-- Node.js, Express, WebSocket (`ws`)
-- MongoDB + Mongoose
-- Telegram Bot API
+## 🧭 Mimari Akış
+- Client → HTTP/WS istekleri
+- WS mesajları → servis katmanı
+- MongoDB → kalıcı veri
+- Telegram bot → bildirim akışı
 
-**Requirements**
-- Node.js 18+
-- MongoDB
-
-**Quick Start**
+## ⚙️ Kurulum
+1. `.env.example` dosyasını `.env` olarak kopyala.
+2. Bağımlılıkları yükle.
 ```bash
 npm install
-cp .env.example .env
+```
+3. Sunucuyu başlat.
+```bash
 npm start
 ```
 
-**Scripts**
-- `npm start` starts the server
+## 🔧 Ortam Değişkenleri
+- `MONGODB_URI` MongoDB bağlantı adresi
+- `TELEGRAM_BOT_TOKEN` Public bot token
+- `TELEGRAM_NOTIFY_TOKEN` Admin bildirim bot token
+- `PUBLIC_URL` Bot mesajlarında kullanılan public URL
+- `DEV` `true` ise dev modu
+- `NGROK_AUTHTOKEN` Dev tüneli için ngrok token
+- `NGROK_DOMAIN` Dev tüneli için ngrok domain
+- `PORT` Production HTTP port
+- `DEV_PORT` Dev HTTP port
 
-**Environment**
-Create `.env` from `.env.example`.
+## 📡 Uç Noktalar
+- WebSocket: `/websocket`
+- Statik içerik: `/game`
 
-| Variable | Purpose |
-| --- | --- |
-| `MONGODB_URI` | MongoDB connection string |
-| `TELEGRAM_BOT_TOKEN` | Public bot token |
-| `TELEGRAM_NOTIFY_TOKEN` | Admin notify bot token |
-| `PUBLIC_URL` | Public app URL used in bot messages |
-| `DEV` | `true` enables dev mode |
-| `NGROK_AUTHTOKEN` | ngrok auth token for dev tunnel |
-| `NGROK_DOMAIN` | ngrok domain for dev tunnel |
-| `PORT` | Production HTTP port |
-| `DEV_PORT` | Dev HTTP port |
+## ✅ Doğrulama Kuralları
+- Rate limit: IP başına dakikada 3 gönderi
+- Uzunluk: 20 ile 700 karakter arası
 
-**Endpoints**
-- WebSocket endpoint: `/websocket`
-- Static assets: `/game`
+## 📁 Proje Yapısı
+- `src/index.js` Sunucu giriş noktası
+- `src/config.js` Env config
+- `src/modules/websocket.js` Gerçek zamanlı akış
+- `src/functions` Bot ve yardımcılar
+- `src/databases` Mongoose modelleri
 
-**WebSocket Protocol**
-Client sends JSON messages. Server responds with JSON messages.
+## 📸 Ekran Görüntüleri
+![ShadowNote Backend 1](assets/image_1.jpeg)
+![ShadowNote Backend 2](assets/image_2.jpeg)
 
-Login:
-```json
-{ "type": "login", "fingerprint": "<device-id>" }
-```
-Response:
-```json
-{ "code": 200 }
-```
+## 🛡️ Güvenlik Notu
+- Secret ve URL değerleri `.env` içindedir.
+- Repo içinde hassas bilgi tutulmaz.
 
-Ping (fetch feed):
-```json
-{ "type": "ping" }
-```
-Response:
-```json
-{ "code": 201, "comments": [], "popular": [], "onlines": 0 }
-```
+## 🗺️ Yol Haritası
+- Moderasyon metrikleri ve yönetim paneli
+- Ölçeklenebilirlik ve kuyruk yapısı
+- Daha güçlü loglama ve izleme
 
-Send post:
-```json
-{ "type": "send", "content": "<text>" }
-```
-Response:
-```json
-{ "code": 999, "type": "success", "message": "İtiraf Yayınlandı!" }
-```
+## 🤝 Katkı
+- Issue açarak öneri bırakabilirsin.
+- PR'larda mevcut kod stilini koru.
 
-Like:
-```json
-{ "type": "like", "id": "<comment-id>" }
-```
+## 🔗 İlgili Repo
+- Client: `shadownote-client`
 
-Dislike:
-```json
-{ "type": "dislike", "id": "<comment-id>" }
-```
-
-**Validation Rules**
-- Rate limit: 3 posts per minute per IP
-- Length: 20 to 700 characters
-
-**Data Models**
-- `comments`: `id`, `type`, `fingerprint`, `content`, `ip`, `likes`, `dislikes`, `views`, `date`
-- `votes`: `id`, `comment`, `fingerprint`, `ip`, `type`, `date`
-
-**Structure**
-- `src/index.js` server entry
-- `src/config.js` env config
-- `src/modules/websocket.js` realtime logic
-- `src/functions` bot and helpers
-- `src/databases` mongoose models
-
-**Notes**
-- In dev mode, ngrok tunnel is optional and only starts if `NGROK_AUTHTOKEN` and `NGROK_DOMAIN` are set.
-
-**License**
-MIT
+## 📄 Lisans
+- MIT

@@ -65,10 +65,4 @@ const start = async() => {
     }
 }
 
-if(!bucksh0t.config.dev) {
-    setInterval(() => {
-        process.exit(1);
-    }, 1 * 60 * 60 * 1000);
-}
-
 start();
