@@ -59,8 +59,8 @@ npm start
 - `src/databases` Mongoose modelleri
 
 ## 📸 Ekran Görüntüleri
-![ShadowNote Backend 1](assets/image_1.jpeg)
-![ShadowNote Backend 2](assets/image_2.jpeg)
+<img src="assets/image_1.jpeg" alt="ShadowNote Backend 1" width="360" />
+<img src="assets/image_2.jpeg" alt="ShadowNote Backend 2" width="360" />
 
 ## 🛡️ Güvenlik Notu
 - Secret ve URL değerleri `.env` içindedir.
